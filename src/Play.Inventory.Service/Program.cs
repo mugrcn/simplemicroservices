@@ -7,7 +7,7 @@ using Polly;
 using Polly.Timeout;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var configuration = builder.Configuration;
 // Add services to the container.
 builder.Services.AddMongoDB()
     .AddMongoRepository<InventoryItem>("inventoryitems")
@@ -31,6 +31,13 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors(builder =>
+        {
+            builder.WithOrigins(configuration["AllowedOrigin"])
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+        }
+    );
 }
 
 app.UseHttpsRedirection();

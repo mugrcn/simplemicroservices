@@ -5,8 +5,9 @@ using Play.Common.MassTransit;
 using Play.Common.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
-var rabbitMQSettings = builder.Configuration.GetSection(nameof(RabbitMQSettings)).Get<RabbitMQSettings>();
-var serviceSettings = builder.Configuration.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
+var configuration = builder.Configuration;
+var rabbitMQSettings = configuration.GetSection(nameof(RabbitMQSettings)).Get<RabbitMQSettings>();
+var serviceSettings = configuration.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
 
 builder.Services.AddMongoDB()
     .AddMongoRepository<Item>("Items");
@@ -25,6 +26,13 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors(builder =>
+    {
+        builder.WithOrigins(configuration["AllowedOrigin"])
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    }
+    );
 }
 
 app.UseHttpsRedirection();

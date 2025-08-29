@@ -19,7 +19,7 @@ namespace Play.Inventory.Service.Controllers
             _catalogRepository = catalogRepository;
         }
 
-        [HttpGet]
+        [HttpGet("{userId}")]
         public async Task<ActionResult<IEnumerable<InventoryItemDto>>> GetAsync(Guid userId)
         {
             if (userId == Guid.Empty)
