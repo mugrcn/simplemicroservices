@@ -57,7 +57,7 @@ function ResponsiveAppBar() {
                             textDecoration: 'none',
                         }}
                     >
-                        Play Game Item
+                        Play Economy
                     </Typography>
 
                     {/* Mobile Menu */}
