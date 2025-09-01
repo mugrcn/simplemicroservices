@@ -20,10 +20,10 @@ function Home() {
                     <li>Explore the Open API documentation:
                         <ul>
                             <li>
-                                <a href="https://localhost:5005/swagger/index.html" target="_blank">Inventory</a>
+                                <a href="http://localhost:5005/swagger/index.html" target="_blank">Inventory</a>
                             </li>
                             <li>
-                                <a href="https://localhost:5001/swagger/index.html" target="_blank">Category</a>
+                                <a href="http://localhost:5001/swagger/index.html" target="_blank">Category</a>
                             </li>
                         </ul>
                     </li>

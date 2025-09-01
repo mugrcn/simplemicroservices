@@ -6,6 +6,11 @@ services:
       - 27017:27017
     volumes:
       - mongodbdata:/data/db
+    healthcheck:
+      test: [ "CMD-SHELL", "mongosh --eval 'db.adminCommand(\"ping\")' || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   rabbitmq:
     image: rabbitmq:management
@@ -13,11 +18,68 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    healthcheck:
+      test: [ "CMD", "rabbitmq-diagnostics", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
     volumes:
       - rabbitmqdata:/var/lib/rabbitmqdata
     hostname: rabbitmq
 
+  catalog-service:
+    build:
+      context: ../
+      dockerfile: Play.Catalog.Service/Dockerfile
+    container_name: catalog-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - RABBITMQ_HOST=rabbitmq
+      - MONGO_HOST=mongo
+      - ASPNETCORE_URLS=http://+:5001
+      - AllowedOrigin=http://localhost:3000
+    ports:
+      - "5001:5001"
+    depends_on:
+      mongo:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  inventory-service:
+    build:
+      context: ../
+      dockerfile: Play.Inventory.Service/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - RABBITMQ_HOST=rabbitmq
+      - MONGO_HOST=mongo
+      - ASPNETCORE_URLS=http://+:5005
+      - AllowedOrigin=http://localhost:3000
+    container_name: inventory-service
+    ports:
+      - "5005:5005"
+    depends_on:
+      mongo:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  web-ui:
+    build:
+      context: ../play.web.ui # build context artık play.web.ui dizini
+      dockerfile: Dockerfile # Dockerfile burada zaten var
+    ports:
+      - "3000:80"
+    # depends_on:
+    #   - catalog-service
+    #   - inventory-service
+
 volumes:
   mongodbdata:
-    external: true
+    driver: local
   rabbitmqdata:
+    driver: local
