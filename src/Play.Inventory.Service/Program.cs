@@ -5,10 +5,17 @@ using Play.Inventory.Service.Clients;
 using Play.Inventory.Service.Entities;
 using Polly;
 using Polly.Timeout;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
-// Add services to the container.
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(configuration)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
 builder.Services.AddMongoDB()
     .AddMongoRepository<InventoryItem>("inventoryitems")
     .AddMongoRepository<CatalogItem>("catalogitems")
