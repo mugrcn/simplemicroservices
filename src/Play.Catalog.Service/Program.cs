@@ -1,19 +1,12 @@
-using MassTransit;
 using Play.Catalog.Service.Entities;
 using Play.Common.MongoDB;
 using Play.Common.MassTransit;
 using Play.Common.Settings;
-using Serilog;
+using Play.Common.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
-
 var configuration = builder.Configuration;
-Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(configuration)
-    .Enrich.FromLogContext()
-    .CreateLogger();
-
-builder.Host.UseSerilog();
+builder.Host.UseSerilogWithDefaults();
 
 var rabbitMQSettings = configuration.GetSection(nameof(RabbitMQSettings)).Get<RabbitMQSettings>();
 var serviceSettings = configuration.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();

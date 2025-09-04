@@ -1,20 +1,15 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Play.Common.MassTransit;
 using Play.Common.MongoDB;
+using Play.Common.Logging;
 using Play.Inventory.Service.Clients;
 using Play.Inventory.Service.Entities;
 using Polly;
 using Polly.Timeout;
-using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
-Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(configuration)
-    .Enrich.FromLogContext()
-    .CreateLogger();
-
-builder.Host.UseSerilog();
+builder.Host.UseSerilogWithDefaults();
 
 builder.Services.AddMongoDB()
     .AddMongoRepository<InventoryItem>("inventoryitems")
