@@ -1,6 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# 
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{19F8FD89-F4AE-400D-BE5B-D4B3FB763B6D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7334A300-A193-4D3D-A993-5BEEEA144FE9}"
@@ -19,6 +18,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Inventory.Service", "src\Play.Inventory.Service\Play.Inventory.Service.csproj", "{68E81363-4E3B-4230-A78E-606672772AFD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Catalog.Contracts", "src\Play.Catalog.Contracts\Play.Catalog.Contracts.csproj", "{4CEC2BF8-F8C6-45BB-9A04-F02E42943FDD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fluent-bit", "fluent-bit", "{4C3424EA-5F30-F837-2C9F-A6C4C4FB8C25}"
+	ProjectSection(SolutionItems) = preProject
+		src\Play.Infra\fluent-bit\parsers.conf = src\Play.Infra\fluent-bit\parsers.conf
+		src\Play.Infra\fluent-bit\fluent-bit.conf = src\Play.Infra\fluent-bit\fluent-bit.conf
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,5 +57,6 @@ Global
 		{44C43C3B-224F-4602-9F1F-F975E4174604} = {19F8FD89-F4AE-400D-BE5B-D4B3FB763B6D}
 		{68E81363-4E3B-4230-A78E-606672772AFD} = {19F8FD89-F4AE-400D-BE5B-D4B3FB763B6D}
 		{4CEC2BF8-F8C6-45BB-9A04-F02E42943FDD} = {19F8FD89-F4AE-400D-BE5B-D4B3FB763B6D}
+		{4C3424EA-5F30-F837-2C9F-A6C4C4FB8C25} = {DEAB3742-3213-46F8-A716-2DC2B7AB04E5}
 	EndGlobalSection
 EndGlobal

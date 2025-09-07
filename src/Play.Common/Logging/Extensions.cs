@@ -16,7 +16,8 @@ public static class LoggingExtensions
                 .Enrich.With(new LogLevelEnricher())           // custom LogLevel property
                 .Enrich.FromLogContext()
                 .Enrich.WithMachineName()
-                .Enrich.WithProperty("Application", context.HostingEnvironment.ApplicationName);
+                .Enrich.WithProperty("Application", context.HostingEnvironment.ApplicationName)
+                .Enrich.With<ElasticTimestampEnricher>();
         });
 
         return builder;
