@@ -21,12 +21,20 @@ var logger = loggerFactory.CreateLogger<CatalogClient>();
 
 AddCatalogClient(builder, logger);
 
-builder.Services.AddControllers();
+builder.Services.AddScoped<LogActionFilter>();
+
+builder.Services.AddControllers(options =>
+{
+    options.SuppressAsyncSuffixInActionNames = false;
+    options.Filters.Add<LogActionFilter>();
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseMiddleware<LoggingMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
