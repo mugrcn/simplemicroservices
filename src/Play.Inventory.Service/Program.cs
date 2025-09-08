@@ -6,10 +6,12 @@ using Play.Inventory.Service.Clients;
 using Play.Inventory.Service.Entities;
 using Polly;
 using Polly.Timeout;
+using Play.Common.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 builder.Host.UseSerilogWithDefaults();
+builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 builder.Services.AddMongoDB()
     .AddMongoRepository<InventoryItem>("inventoryitems")
@@ -33,7 +35,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseMiddleware<LoggingMiddleware>();
 
 // Configure the HTTP request pipeline.
